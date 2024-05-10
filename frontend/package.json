@@ -1,0 +1,23 @@
+{
+    "id": "orange-fdouyin",
+    "name": "仿抖音快手短视频模版，高性能滑动不卡顿超流畅，终极解决方案-橙果互联",
+    "version": "1.0.0",
+    "description": "仿抖音快手短视频模版，高性能滑动不卡顿超流畅，终极解决方案-橙果互联",
+    "keywords": [
+        "仿抖音",
+        "仿快手",
+        "短视频模版",
+        "视频",
+        "video"
+    ],
+    "dcloudext": {
+        "category": [
+            "uni-app前端模板",
+            "uni-app前端项目模板"
+        ]
+    },
+    "dependencies": {
+        "element-ui": "^2.15.14",
+        "uni-axios": "^1.0.5"
+    }
+}

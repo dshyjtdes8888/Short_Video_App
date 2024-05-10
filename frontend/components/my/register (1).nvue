@@ -1,0 +1,114 @@
+
+<template>
+  <view class="register-container">
+	<text class="more-discover">注册您的新账号</text>
+    <u-form ref="uForm" :model="form" :rules="rules">
+      <u-form-item label="用户名:" prop="userName">
+        <u-input type="text" v-model="form.userName" placeholder="请输入用户名" class="rounded-input" />
+      </u-form-item>
+      <u-form-item label="密码:" prop="password">
+        <u-input type="password" v-model="form.password" placeholder="请输入密码" class="rounded-input" />
+      </u-form-item>
+	  <u-form-item label="确认密码:" prop="passwordConfirm">
+	    <u-input type="password" v-model="form.password" placeholder="请再次输入密码" class="rounded-input" />
+	  </u-form-item>
+      <u-button @tap="register" class="register-button">注册</u-button>
+    </u-form>
+	<text class="login">点击登录已有账号</text>
+  </view>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      form: {
+        userName: '',
+        password: '',
+		passwordConfirm: ''
+      },
+      rules: {
+        userName: [
+          { required: true, message: '请输入用户名', trigger: 'change' }
+        ],
+        password: [
+          { required: true, message: '请输入密码', trigger: 'change' }
+        ],
+		passwordConfirm: [
+		  { required: true, message: '请再次输入密码', trigger: 'change' }
+		]
+      }
+    };
+  },
+methods: {
+async register() {
+  try {
+    uni.showLoading({ title: '注册中...' });
+
+    const response = await uni.request({
+      url: `http://192.168.89.9:8080/douyin/user/register/?username=${this.form.userName}&password=${this.form.password}`,
+      method: 'POST',
+      dataType: 'json'
+    });
+
+    console.log(response);
+
+    if (response[1] && response[1].data && response[1].data.status_code === 0) {
+      uni.hideLoading();
+      uni.showToast({ title: '注册成功', mask: true, duration: 1500 });
+
+      // 注册成功后跳转到首页，使用 switchTab 可以跳转至 tabBar 页面
+      uni.switchTab({
+        url: '/pages/index/index'
+      });
+    } else {
+      uni.showToast({ title: '注册失败', icon: 'none', duration: 3000 }); // 显示错误信息
+    }
+  } catch (error) {
+    console.error("Error during register:", error);
+  }
+}
+
+
+}
+
+};
+</script>
+<style scoped>
+.register-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 700vh; /* 100% of the viewport height */
+  background-color: #ffffff;
+}
+.rounded-input {
+  margin-top: 10px;
+  border-radius: 20px; // 添加圆角边框
+  background-color: #d0d9de;
+  font-size: 16px; 
+  height: 45px;  
+  /* padding: 10px 100px; */
+  /* box-sizing: border-box; */
+}
+.u-form-item {
+}
+.more-discover {
+  font-size: 30px;
+  margin-bottom: 20px;  /* 调整上下间距 */
+  font-weight: bold; /* 加粗 */
+}
+.login {
+  font-size: 16px;
+  margin-top: 10px;  /* 调整上下间距 */
+  color: #878787;
+  font-weight: bold; /* 加粗 */
+}
+.register-button {
+  margin-top: 30px;
+  background-color: #ff0000;
+  color: #ffffff;
+  padding: 20px 150px;
+  border-radius: 20px;//原角
+}
+</style>

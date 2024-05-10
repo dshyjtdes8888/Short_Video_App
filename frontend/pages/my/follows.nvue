@@ -1,0 +1,75 @@
+<template>
+  <view>
+    <!-- tab -->
+    <scroll-view scroll-x class="nav text-center">
+      <view class="cu-item text-gray" :class="index==TabCur?'text-white cur':''" v-for="(item,index) in tabList" :key="index" @tap="tabSelect" :data-id="index">
+        {{item.name}} {{ item.number }}
+      </view>
+    </scroll-view>
+
+    <!-- list -->
+    <view v-show="TabCur === 0"> <!-- 显示关注列表 -->
+      <follow-list :follows="follows"></follow-list>
+    </view>
+    <view v-show="TabCur === 1"> <!-- 显示粉丝列表 -->
+      <fans-list :fans="fans"></fans-list>
+    </view>
+  </view>
+</template>
+
+<script>
+import FollowList from '@/components/my/FollowList.vue'; // 你的关注列表组件路径
+import FansList from '@/components/my/FansList.vue';   // 你的粉丝列表组件路径
+
+export default {
+  components: {
+    FollowList,
+    FansList,
+  },
+  data() {
+    return {
+      TabCur: 0,
+      tabList: [
+        {
+          name: '关注',
+          number: 100, // 替换为实际数量
+        },
+        {
+          name: '粉丝',
+          number: 150, // 替换为实际数量
+        },
+      ],
+      follows: [
+        { name: '关注用户1' },
+        { name: '关注用户2' },
+        // ... 其他关注列表项数据
+      ],
+      fans: [
+        { name: '粉丝用户1' },
+        { name: '粉丝用户2' },
+        // ... 其他粉丝列表项数据
+      ],
+    };
+  },
+  methods: {
+    tabSelect(e) {
+      this.TabCur = e.currentTarget.dataset.id;
+    },
+  },
+  mounted() {
+    // 设置页面标题
+    uni.setNavigationBarTitle({
+      title: 'ly',
+    });
+  },
+};
+</script>
+
+<style>
+  /* 添加样式规则，将文字部分设置为白色 */
+  .text-white {
+    color: #ffffff;
+  }
+
+
+</style>
